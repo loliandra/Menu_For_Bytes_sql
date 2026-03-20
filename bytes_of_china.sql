@@ -86,7 +86,6 @@ INSERT INTO review VALUES (
   '2020-05-22'
 );
 
-
 INSERT INTO review VALUES (
   2,
   1,
@@ -120,7 +119,6 @@ INSERT INTO category VALUES (
   'House Specials',
   null
 );
-
 
 INSERT INTO dish VALUES (
   1,
@@ -227,33 +225,43 @@ INSERT INTO categories_dishes VALUES (
 );
 
 
+-- Display restaurant name, address and telephone
 SELECT restaurant.name, address.street_name, address.street_number, restaurant.telephone
 FROM restaurant
 INNER JOIN address ON restaurant.id = address.restaurant_id;
 
+
+-- Get the best rating received by the restaurant
 SELECT rating as best_rating
 FROM review
 ORDER BY rating DESC
 LIMIT 1;
 
 
+-- Show dish name, price and category sorted by dish name
 SELECT dish.name AS dish_name, categories_dishes.price AS price, category.name AS category
 FROM dish
 INNER JOIN categories_dishes ON dish.id = categories_dishes.dish_id
 INNER JOIN category ON categories_dishes.category_id = category.id
 ORDER BY category;
 
+
+-- Show spicy dishes with price and category
 SELECT dish.name AS spicy_dish_name, categories_dishes, categories_dishes.price	
 FROM dish
 INNER JOIN categories_dishes ON dish.id = categories_dishes.dish_id
 INNER JOIN category ON categories_dishes.category_id = category.id
 WHERE hot_and_spicy = 't';
 
+
+-- Count how many times each dish appears in categories
 SELECT dish_id, COUNT(dish_id) AS dish_count
 FROM categories_dishes
 GROUP BY dish_id
 HAVING COUNT(dish_id) > 1;
 
+
+-- Show dish names that appear in multiple categories
 SELECT dish.id AS dish_id, dish.name AS dish_name, COUNT(categories_dishes.dish_id) AS dish_count
 FROM dish
 INNER JOIN categories_dishes ON dish.id = categories_dishes.dish_id
@@ -261,10 +269,7 @@ GROUP BY dish.id, dish.name
 HAVING COUNT(categories_dishes.dish_id) > 1;
 
 
+-- Get best rating together with review description using subquery
 SELECT rating as best_rating, description
 FROM review
 WHERE  rating = ( SELECT MAX(rating) from review );
-
-
-
-

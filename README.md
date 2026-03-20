@@ -108,8 +108,6 @@ This project demonstrates the following database design tasks:
 
 * SQL
 * Relational Database Design
-* Git & GitHub
-
 ---
 
 ## Purpose
